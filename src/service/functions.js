@@ -1,11 +1,10 @@
-import {message} from "antd";
 import {data as backend_data} from "../store/data"
 
 // YOU CAN SWITCH TO REJECT OR RESOLVE APIS HERE
 const statuses = {
-    isAddFailed: true,
-    isCheckFailed: true,
-    isGet: false,
+    isAddFailed: false,
+    isCheckFailed: false,
+    isGetFailed: false,
 }
 
 export const addClient = (data, {date, room_number}) => {
@@ -14,11 +13,9 @@ export const addClient = (data, {date, room_number}) => {
             if (!statuses.isAddFailed) {
                 if (!!data.length) {
                     if (data?.find(i => i.room_number === room_number).busy_dates.some(p => p === date)) {
-                        message.warn("This room is busy in this day")
-                        resolve({
-                            status: 204,
+                        reject({
+                            status: 505,
                             message: "Created",
-                            data: data
                         })
                     } else {
                         resolve({
@@ -86,7 +83,7 @@ export const checkStatus = (data, {room_number, date}) => {
 export const getData = (data) => {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
-            if (!statuses.isGet) {
+            if (!statuses.isGetFailed) {
                 if (!!data.length) {
                     resolve({
                         status: 200,

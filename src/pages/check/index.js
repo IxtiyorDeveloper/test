@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {Button, Card, DatePicker, Form, message, Select} from 'antd';
+import React from 'react';
+import {Button, Card, DatePicker, Form, Select} from 'antd';
 import './index.scss'
 import {useDispatch, useSelector} from "react-redux";
 import moment from "moment";
@@ -17,6 +17,8 @@ function Index(props) {
     const callStatus1 = useSelector(getCallStatus('isBusy'))
     const callStatus2 = useSelector(getCallStatus('allData'))
 
+    const [form] = Form.useForm();
+    const room_number = Form.useWatch('room_number', form);
 
     const onFinish = (values) => {
         dispatch(checkRoomStatus(
@@ -33,17 +35,14 @@ function Index(props) {
         console.log('Failed:', errorInfo);
     };
 
-    useEffect(() => {
-        if (callStatus1.isError || callStatus2.isError) message.error("Error!!!")
-    }, [callStatus1.isError, callStatus2.isError])
-
     const dateFormat = "DD-MM-YYYY"
 
     return (
         <div className="check">
-            <Card title="Add booking" className="card">
+            <Card title="Check room" className="card">
                 <Form
                     name="basic"
+                    form={form}
                     labelCol={{
                         span: 4,
                     }}
@@ -109,7 +108,7 @@ function Index(props) {
                             </Button>
                             <div className="">
                                 {
-                                    (isBusy !== undefined) ?
+                                    (isBusy !== undefined && !!room_number) ?
                                         (
                                             !isBusy ? <AiOutlineCheck className="icon"/> :
                                                 <ImCancelCircle className="icon"/>

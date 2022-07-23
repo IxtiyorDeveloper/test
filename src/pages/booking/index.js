@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {Button, Card, DatePicker, Form, Input, message, Select} from 'antd';
+import React from 'react';
+import {Button, Card, DatePicker, Form, Input, Select} from 'antd';
 import './index.scss'
 import {useDispatch, useSelector} from "react-redux";
 import {attachDateToRoom, getCallStatus, getData} from "../../store";
@@ -23,10 +23,6 @@ function Index(props) {
     };
 
     const data = useSelector(getData('allData'))
-
-    useEffect(() => {
-        if (callStatus1.isError || callStatus2.isError) message.error("Error!!!")
-    }, [callStatus1.isError,callStatus2.isError])
 
     const dateFormat = "DD-MM-YYYY"
 

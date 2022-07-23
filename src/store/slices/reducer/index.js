@@ -10,7 +10,13 @@ export const attachDateToRoom = createAsyncThunk('add/room', async (data, {dispa
         return res.data
     } catch (err) {
         dispatch(setError({key: "rooms", data: true}))
-        console.error(err.message)
+        if (err.status === 505){
+            message.warn("This room is busy in this day")
+        }
+        else {
+            message.error("Error!!!")
+        }
+        throw err
     }
 })
 
@@ -22,7 +28,8 @@ export const checkRoomStatus = createAsyncThunk('check/status', async (data, {di
         return res.data
     } catch (err) {
         dispatch(setError({key: "isBusy", data: true}))
-        console.error(err.message)
+        message.error("Error!!!")
+        throw err
     }
 })
 
@@ -34,7 +41,8 @@ export const getAllData = createAsyncThunk('room/get', async (data, {dispatch, g
         return res.data
     } catch (err) {
         dispatch(setError({key: "allData", data: true}))
-        console.error(err.message)
+        message.error("Error!!!")
+        throw err
     }
 })
 
@@ -81,6 +89,15 @@ const slice = createSlice({
         store.allData.data = payload
         store.allData.isLoading = false
         store.allData.isError = false
+    }).addCase(attachDateToRoom.rejected, (store) => {
+        store.rooms.isLoading = false;
+        store.rooms.isError = true;
+    }).addCase(checkRoomStatus.rejected, (store) => {
+        store.isBusy.isLoading = false;
+        store.isBusy.isError = true;
+    }).addCase(getAllData.rejected, (store) => {
+        store.allData.isLoading = false;
+        store.allData.isError = true;
     })
 })
 
