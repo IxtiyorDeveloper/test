@@ -1,0 +1,27 @@
+.sidebar {
+  width: 100%;
+  padding: 50px 0 0 50px;
+
+  a {
+    display: block;
+    padding: 10px 5px;
+    color: black;
+    letter-spacing: 1px;
+    border: 1px solid black;
+    width: 200px;
+    text-decoration: none;
+    border-bottom: none;
+
+    &:last-child {
+      border-bottom: 1px solid black;
+    }
+
+    &:hover {
+      color: var(--blue);
+    }
+
+    &.active {
+      color: var(--blue);
+    }
+  }
+}
