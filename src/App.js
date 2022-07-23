@@ -9,9 +9,14 @@ import Booking from "./pages/booking"
 import Check from "./pages/check"
 import {useDispatch} from "react-redux";
 import {getAllData} from "./store";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 
 function App() {
+
+    const [values, setValues] = useState({
+        room_number: undefined,
+        date: undefined
+    })
 
     const dispatch = useDispatch()
 
@@ -34,7 +39,7 @@ function App() {
                 }/>
                 <Route path='/check' element={
                     <Layout>
-                        <Check/>
+                        <Check values={values} setValues={setValues}/>
                     </Layout>
                 }/>
             </Routes>

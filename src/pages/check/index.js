@@ -9,7 +9,8 @@ import {checkRoomStatus, getCallStatus, getData} from "../../store";
 
 const {Option} = Select;
 
-function Index(props) {
+function Index({values, setValues}) {
+
     const dispatch = useDispatch()
 
     const isBusy = useSelector(getData('isBusy'))
@@ -24,6 +25,10 @@ function Index(props) {
                 room_number: values.room_number,
             }
         ))
+        setValues({
+            date: moment(values.date).format("DD-MM-YYYY"),
+            room_number: values.room_number,
+        })
     };
 
     const data = useSelector(getData('allData'))
@@ -51,11 +56,12 @@ function Index(props) {
                     }}
                     initialValues={{
                         remember: true,
+                        room_number: values.room_number,
+                        date: !!values.date ? moment(values.date, dateFormat) : null,
                     }}
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
                     autoComplete="off"
-
                 >
                     <Form.Item
                         label="Room"
@@ -72,6 +78,7 @@ function Index(props) {
                             allowClear
                             showSearch
                             loading={callStatus2?.isLoading}
+                            value={values.room_number}
                         >
                             {
                                 data?.map((i, k) => {
@@ -91,10 +98,12 @@ function Index(props) {
                                 message: 'Please input the date!',
                             },
                         ]}
+                        preserve
                     >
                         <DatePicker
                             format={dateFormat}
                             disabledDate={disabledDate}
+                            value={values.room_number}
                         />
                     </Form.Item>
                     <Form.Item
