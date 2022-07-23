@@ -26,6 +26,10 @@ function Index(props) {
 
     const dateFormat = "DD-MM-YYYY"
 
+    function disabledDate(current) {
+         return current < moment()
+    }
+
     return (
         <div className="add">
             <Card title="Add booking" className="card">
@@ -93,6 +97,7 @@ function Index(props) {
                     >
                         <DatePicker
                             format={dateFormat}
+                            disabledDate={disabledDate}
                         />
                     </Form.Item>
                     <Form.Item

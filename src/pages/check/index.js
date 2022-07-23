@@ -17,9 +17,6 @@ function Index(props) {
     const callStatus1 = useSelector(getCallStatus('isBusy'))
     const callStatus2 = useSelector(getCallStatus('allData'))
 
-    const [form] = Form.useForm();
-    const room_number = Form.useWatch('room_number', form);
-
     const onFinish = (values) => {
         dispatch(checkRoomStatus(
             {
@@ -35,6 +32,10 @@ function Index(props) {
         console.log('Failed:', errorInfo);
     };
 
+    function disabledDate(current) {
+        return current < moment()
+    }
+
     const dateFormat = "DD-MM-YYYY"
 
     return (
@@ -42,7 +43,6 @@ function Index(props) {
             <Card title="Check room" className="card">
                 <Form
                     name="basic"
-                    form={form}
                     labelCol={{
                         span: 4,
                     }}
@@ -55,6 +55,7 @@ function Index(props) {
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
                     autoComplete="off"
+
                 >
                     <Form.Item
                         label="Room"
@@ -93,6 +94,7 @@ function Index(props) {
                     >
                         <DatePicker
                             format={dateFormat}
+                            disabledDate={disabledDate}
                         />
                     </Form.Item>
                     <Form.Item
@@ -108,7 +110,7 @@ function Index(props) {
                             </Button>
                             <div className="">
                                 {
-                                    (isBusy !== undefined && !!room_number) ?
+                                    (isBusy !== undefined) ?
                                         (
                                             !isBusy ? <AiOutlineCheck className="icon"/> :
                                                 <ImCancelCircle className="icon"/>

@@ -15,7 +15,7 @@ export const addClient = (data, {date, room_number}) => {
                     if (data?.find(i => i.room_number === room_number).busy_dates.some(p => p === date)) {
                         reject({
                             status: 505,
-                            message: "Created",
+                            message: "Failed",
                         })
                     } else {
                         resolve({
